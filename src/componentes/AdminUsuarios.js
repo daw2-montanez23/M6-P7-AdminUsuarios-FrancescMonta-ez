@@ -3,14 +3,14 @@ export const adminUsuarios = {
     array: [
         {
             id: 1,
-            nick: 'asdrf90',
-            email: 'aefhefw4@gmail.com',
+            nick: 'Franks',
+            email: 'Franks@gmail.com',
             pass: 'prueba343'
         },
         {
             id: 2,
-            nick: 't3eor8',
-            email: 'hjiw4fw@gmail.com',
+            nick: 'Pablo',
+            email: 'Pablo@gmail.com',
             pass: 'pear349'
         }
     ],
