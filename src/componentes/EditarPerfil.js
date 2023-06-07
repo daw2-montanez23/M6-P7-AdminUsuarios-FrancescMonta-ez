@@ -1,43 +1,91 @@
-import { router } from "./Router"
-import multiavatar from '@multiavatar/multiavatar/esm'
-
 export const editarPerfil = {
-    template:`
-    <form id="formEditar">
-        <input type="hidden" id="id">
+    template: `<div class="modal" tabindex="-1" id="modal">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Perfil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nick</label>
-            <input type="text" class="form-control nicke" id="nickE" aria-describedby="nick">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input type="text" class="form-control" id="emailE" aria-describedby="email">
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="passwordE">
-        </div>
-        <div id="avatar" class="w-50"></div>
-        <button type="submit" class="btn btn-primary enviarEditar">Editar</button>
-    </form>
-    `,
-    script:()=>{
-        console.log('hola, soy editarPerfil')
-        
-        const main = document.querySelector("main")
+        <div class="modal-body">
+            <div class= "row">
+                <div class="col-12" id="foto-perfil">
+                </div>
+            </div>
+            <form id="form2" class="row g-3 d-block needs-validation" novalidate>
+                <div class="col-md-10 ">
+                    <label for="nick-editar" class="form-label">Nick</label>
+                    <input type="text" class="form-control" id="nick-editar" required pattern="[A-Z]{1,10}\_">
+                    <!-- mensaje si valida -->
+                    <div class="valid-feedback">Nick correcto</div>
+                    <!-- mensaje si no valida -->
+                    <div class="invalid-feedback">Incorrecto, solo letras mayúsculas(entre 1 y 10) y el símbolo "_" </div>
+                </div>
 
-        main.addEventListener("click",(event)=>{
-            if(event.target.classList.contains('enviarEditar')){
-                router.editarEnviar(event)
+                <div class="col-md-10">
+                    <label for="email-editar" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email-editar" required>
+                    <!-- mensaje si valida -->
+                    <div class="valid-feedback">Email correcto</div>
+                    <!-- mensaje si no valida -->
+                    <div class="invalid-feedback">Incorrecto, introduce un email que sea correcto</div>
+                    </div>
+                <div class="col-md-10">
+                    <label for="pass-editar" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="pass-editar" required maxlength="16" minlength="6" pattern="[A-Z]{1,}[^A-Z]{1,}[0-9]{1,}">
+                    <!-- mensaje si valida -->
+                    <div class="valid-feedback">Password correcta</div>
+                    <!-- mensaje si no valida -->
+                    <div class="invalid-feedback">Incorrecta, el orden es letras mayusculas, letras minusculas y numeros </div>
+                </div>
+                <input type="hidden" id="input-hidden"></input>
+            </form>
+        </div>
+        <div class="modal-footer justify-content-start">
+            <button type="button" class="btn btn-primary" id="btn-actualizar" >Actualizar perfil</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+              </div>`,
+    methods: {
+      actualizarUsuario(event) {
+        event.preventDefault();
+        console.log("hola");
+  
+        let idArray = document.querySelector("#input-hidden").value;
+  
+        for (let i = 0; i < adminUsuarios.array.length; i++) {
+          if (adminUsuarios.array[i].id == idArray) {
+            let nickInput = document.querySelector("#nick-editar");
+            let emailInput = document.querySelector("#email-editar");
+            let passInput = document.querySelector("#pass-editar");
+  
+            if (nickInput.checkValidity() && emailInput.checkValidity() && passInput.checkValidity()) {
+              adminUsuarios.array[i].nick = nickInput.value;
+              adminUsuarios.array[i].email = emailInput.value;
+              adminUsuarios.array[i].pass = passInput.value;
+  
+              let html = `
+                <td>${adminUsuarios.array[i].id}</td>
+                <td>${adminUsuarios.array[i].nick}</td>
+                <td>${adminUsuarios.array[i].email}</td>
+                <td>
+                  <button type="button" class="btn btn-warning editar" id="editar" data-id="${adminUsuarios.array[i].id}" data-bs-toggle="modal" data-bs-target="#modal">Editar</button>
+                  <button type="button" class="btn btn-danger eliminar" data-id="${adminUsuarios.array[i].id}">Eliminar</button>
+                </td>
+              `;
+  
+              console.log(html);
+              document.getElementById(i).innerHTML = html;
+            } else {
+              // Si alguno de los campos no es válido, puedes mostrar un mensaje de error o realizar alguna acción
+              console.log("Alguno de los campos no es válido");
             }
-        })
+          }
+        }
+      },
+    },
+  };
+  
 
-        main.addEventListener("keydown",(event)=>{
-            console.log("aaa")
-            if(event.target.classList.contains('nicke')){
-                let svgCode = multiavatar(event.target.value)
-                document.querySelector('#avatarE').innerHTML = svgCode
-            }
-        })        
-    }
-}
+

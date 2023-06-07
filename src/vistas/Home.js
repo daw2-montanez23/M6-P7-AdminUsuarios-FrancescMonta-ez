@@ -1,6 +1,6 @@
-export const home ={
-    template: `<h2>Soy el Home</h2> `,
+export const home = {
+    template: `<h1>Página home</h1>`,
     script: ()=>{
-        console.log('hola soy Home')
+        console.log('Hola, soy la vista home');
     }
 }

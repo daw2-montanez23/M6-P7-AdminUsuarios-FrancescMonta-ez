@@ -1,6 +1,8 @@
-import { header } from './componentes/Header'
-import { adminUser } from './vistas/AdminUser'
+import { adminUsuarios } from "./componentes/adminUsuarios";
+import { header } from "./componentes/header";
 
+document.querySelector("#header").innerHTML = header.template
 
-document.querySelector('header').innerHTML = header.template
 header.script()
+
+
